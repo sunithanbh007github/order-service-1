@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-1
+  labels:
+    app: order-service-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service-1
+  template:
+    metadata:
+      labels:
+        app: order-service-1
+    spec:
+      containers:
+        - name: order-service-1
+          image: order-service-1
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 5" ]
+          ports:
+            - containerPort: 9002
+          env:
+            - name: POLAR_CATALOG_SERVICE_URI
+              value: http://catalog-service-1
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://polar-postgres-1/polardb_order_1
+            - name: SPRING_FLYWAY_URL
+              value: jdbc:postgresql://polar-postgres-1/polardb_order_1
