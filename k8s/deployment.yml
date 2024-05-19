@@ -31,3 +31,7 @@ spec:
               value: r2dbc:postgresql://polar-postgres-1/polardb_order_1
             - name: SPRING_FLYWAY_URL
               value: jdbc:postgresql://polar-postgres-1/polardb_order_1
+            - name: SPRING_RABBITMQ_HOST
+              value: polar-rabbitmq-1
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              value: http://polar-keycloak-1/realms/PolarBookshop-1
