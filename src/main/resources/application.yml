@@ -49,6 +49,22 @@ spring:
         jwt:
           issuer-uri: http://localhost:8080/realms/PolarBookshop-1
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
+
 polar:
   catalog-service-uri: "http://localhost:9001"
 

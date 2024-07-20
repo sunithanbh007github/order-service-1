@@ -25,6 +25,7 @@ ext {
 	set('springCloudVersion', "2023.0.1")
 	set('testcontainersVersion', "1.17.3")
 	set('testKeycloakVersion', "2.3.0")
+	set('otelVersion', "1.17.0")
 }
 
 dependencies {
@@ -33,11 +34,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	runtimeOnly 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.postgresql:r2dbc-postgresql'
 	runtimeOnly 'org.springframework:spring-jdbc'
+	runtimeOnly "io.opentelemetry.javaagent:opentelemetry-javaagent:${otelVersion}"
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
