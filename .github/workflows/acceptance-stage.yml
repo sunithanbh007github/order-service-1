@@ -6,6 +6,12 @@ on:
     branches: main
 concurrency: acceptance
 
+env:
+  OWNER: sunithanbh007github
+  REGISTRY: ghcr.io
+  APP_REPO: order-service-1
+  DEPLOY_REPO: deployment-1
+  VERSION: ${{ github.sha }}
 
 jobs:
   functional:
@@ -26,3 +32,19 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - run: echo "Running security tests"
+  deliver:
+    name: Deliver release candidate to production
+    needs: [ functional, performance, security ]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deliver application to production
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.DISPATCH_TOKEN_1 }}
+          repository: ${{ env.OWNER }}/${{ env.DEPLOY_REPO }}
+          event-type: app_delivery
+          client-payload: '{
+            "app_image": "${{ env.REGISTRY }}/${{ env.OWNER }}/${{ env.APP_REPO }}",
+            "app_name": "${{ env.APP_REPO }}",
+            "app_version": "${{ env.VERSION }}"
+          }'
